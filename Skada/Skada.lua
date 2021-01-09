@@ -8,8 +8,8 @@ local boss = LibStub("LibBossIDs-1.0")
 local dataobj = ldb:NewDataObject("Skada", {label = "Skada", type = "data source", icon = "Interface\\Icons\\Spell_Lightning_LightningBolt01", text = "n/a"})
 
 -- Chat Parameters
-local maxMessagesSent             = 3   -- Max messages that can be send at once before getting muted by the server
-local gracePeriodForSendMessages  = 1.1   -- Assuming that we can send at most 'maxMessagesSent' every 'gracePeriodForSendMessages' seconds
+local maxMessagesSent             = 4   -- Max messages that can be send at once before getting muted by the server
+local gracePeriodForSendMessages  = 1.3   -- Assuming that we can send at most 'maxMessagesSent' every 'gracePeriodForSendMessages' seconds
 
 -- Keybindings
 BINDING_HEADER_Skada = "Skada"
@@ -555,7 +555,7 @@ end
 
 
 do
-	local Messeger = CreateFrame("frame")
+	local Messenger = CreateFrame("frame")
 	local queuedMessages = {}
 	local timeMessagesSent = {}
 
@@ -595,8 +595,7 @@ do
 				table.remove(timeMessagesSent,index)
 			end
 		end
-		if count >= maxMessagesSent then return true
-		else return false end
+		return count >= maxMessagesSent
 	end
 
 	-- Frame update handler
@@ -620,7 +619,7 @@ do
 			say(msg, chan, chantype)
 		else
 			table.insert(queuedMessages, string.format("%s\t%s\t%s", msg, chan, chantype))
-			Messeger:SetScript("OnUpdate", onUpdate)
+			Messenger:SetScript("OnUpdate", onUpdate)
 		end
 	end
 end
